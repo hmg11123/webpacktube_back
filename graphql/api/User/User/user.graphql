@@ -1,0 +1,14 @@
+type UserData {
+ isLogin: Boolean!
+ userData: User!
+}
+
+type Query {
+ getLoginUser(email: String!, password: String!): UserData!
+ getUser(id: String!): User!
+ getCheckEmail(email: String!): String!
+}
+
+type Mutation {
+ createUser(name: String!, avatar: String!, email: String!, nickName: String!, brith: String!, password: String!, mobile: String!): Boolean!
+}

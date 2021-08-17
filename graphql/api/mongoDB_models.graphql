@@ -1,0 +1,52 @@
+# User
+# name
+# avatar
+# follower
+# email
+# nickName
+# brith
+# password
+# mobile
+# createdAt
+# isDelete
+
+type User {
+ _id: ID!
+ name: String!
+ avatar: String!
+ follower: [String]!
+ email: String!
+ nickName: String!
+ brith: String!
+ password: String!
+ mobile: String!
+ subscribe: [String]!
+ createdAt: String!
+ isDelete: Boolean!
+}
+
+# Video
+# title
+# thumnailPath
+# videoPath
+# explanation => 부가셜명
+# author
+# good  => 좋아요
+# bad => 싫어요
+# hit => 조회수
+# createdAt
+# isDelete
+
+type Video {
+ _id: ID!
+ title: String!
+ thumnailPath: String!
+ videoPath: String!
+ explanation: String!
+ author: String!
+ good: [String]!
+ bad: [String]!
+ hit: Int!
+ createdAt: String!
+ isDelete: Boolean!
+}
