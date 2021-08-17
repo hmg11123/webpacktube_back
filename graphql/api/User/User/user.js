@@ -41,44 +41,76 @@ export default {
      randomCode[Math.floor(Math.random() * 10)] +
      randomCode[Math.floor(Math.random() * 10)];
 
-    const smtpTransport = nodemailer.createTransport(
-     smtpPool({
-      service: "Gmail",
-      host: "localhost",
-      prot: "465",
-      tls: {
-       rejectUnauthorize: false,
-      },
-      auth: {
-       user: process.env.ADMIN_EMAIL,
-       pass: process.env.ADMIN_EMAIL_PASSWORD,
-      },
-      maxConnections: 5,
-      maxMessages: 10,
-     }),
-    );
+    const result = await User.findOne({ email });
+    console.log(result);
 
-    const mailOpt = {
-     from: process.env.ADMIN_EMAIL,
-     to: email,
-     subject: "🔐인증코드 전송 [www.webpacktube.com]",
-     html: `인증코드는 ${code} 입니다.`,
-    };
+    let isResult = result ? true : false;
+    console.log(isResult);
+    if (!isResult) {
+     console.log("성공");
 
-    await smtpTransport.sendMail(mailOpt, function (err, info) {
-     if (err) {
-      console.error("Send Mail error : ", err);
-      smtpTransport.close();
-     } else {
-      console.log("Message sent : ", info);
-      smtpTransport.close();
-     }
-    });
+     const smtpTransport = nodemailer.createTransport(
+      smtpPool({
+       service: "Gmail",
+       host: "localhost",
+       prot: "465",
+       tls: {
+        rejectUnauthorize: false,
+       },
+       auth: {
+        user: process.env.ADMIN_EMAIL,
+        pass: process.env.ADMIN_EMAIL_PASSWORD,
+       },
+       maxConnections: 5,
+       maxMessages: 10,
+      }),
+     );
 
-    return code;
+     const mailOpt = {
+      from: process.env.ADMIN_EMAIL,
+      to: email,
+      subject: "🔐인증코드 전송 [www.webpacktube.com]",
+      html: `인증코드는 ${code} 입니다.`,
+     };
+
+     await smtpTransport.sendMail(mailOpt, function (err, info) {
+      if (err) {
+       console.error("Send Mail error : ", err);
+       smtpTransport.close();
+      } else {
+       console.log("Message sent : ", info);
+       smtpTransport.close();
+      }
+     });
+     return code;
+    } else {
+     console.log("실패");
+     return "";
+    }
    } catch (e) {
     console.log(e);
     return "";
+   }
+  },
+
+  getCheckNickName: async (_, args) => {
+   const { nickName } = args;
+
+   try {
+    const result = await User.findOne({ nickName });
+
+    let isResult = result ? true : false;
+
+    console.log(result);
+    console.log(isResult);
+    if (!isResult) {
+     return true;
+    } else {
+     return false;
+    }
+   } catch (e) {
+    console.log(e);
+    return false;
    }
   },
  },

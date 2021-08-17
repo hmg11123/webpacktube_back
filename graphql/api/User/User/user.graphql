@@ -7,6 +7,7 @@ type Query {
  getLoginUser(email: String!, password: String!): UserData!
  getUser(id: String!): User!
  getCheckEmail(email: String!): String!
+ getCheckNickName(nickName: String!): Boolean!
 }
 
 type Mutation {
